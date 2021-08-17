@@ -2,7 +2,11 @@
 
 For this assignment you will be building an online employee directory, using only vanilla JS (**no jQuery**).
 
-Please fork this repository for your work, you should spend no more than 4-6h on this, please make sure to document your process in the `Dev Notes` section of this `README`
+1. Please fork this repository before starting to work on it
+2. Commit changes as if you are working on a team (including realistic commit messages)
+3. When you are done, make to push your changes and send a link to your repo back to your recruiter
+
+You should spend no more than 4-6h on this and please make sure to document anything you'd like us to know in the `Dev Notes` section of this `README`
 
 Feel free to reach out to with any questions or for clarification.
 
