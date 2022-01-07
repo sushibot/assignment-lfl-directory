@@ -6,12 +6,13 @@ const search_icon = "./assets/icons/search.svg";
 const delete_icon = "./assets/icons/delete.svg";
 const edit_icon = "./assets/icons/edit.svg";
 const done_icon = "./assets/icons/done.svg";
+const close_icon = "./assets/icons/close.svg";
 
 $("#directory-list-page").on("click", directory_list_page);
 $("#directory-add-person-page").on("click", directory_add_person_page);
 $("#directory-verify-person-page").on("click", directory_verify_person_page);
 $("#directory-delete-person-page").on("click", directory_delete_person_page);
-$("#directory-update-person-page").on("click", directory_update_person_page);
+// $("#directory-update-person-page").on("click", directory_update_person_page);
 
 function init() {
   return directory_list_page();
@@ -116,78 +117,68 @@ function directory_delete_person_page() {
   directory_container.appendChild(employee_directory_list);
 }
 
-function directory_update_person_page() {
-  reset_view();
+// function directory_update_person_page() {
+//   reset_view();
 
-  const form = FormComponent({
-    id: "update-person-form",
-    name: "update-person",
-  });
+//   const form = FormComponent({
+//     id: "update-person-form",
+//     name: "update-person",
+//   });
 
-  const input_name = InputComponent({
-    name: "employee-search",
-  });
+//   const input_name = InputComponent({
+//     name: "employee-search",
+//   });
 
-  const button = ButtonComponent({
-    icon: edit_icon,
-    className: "button-icon__edit",
-  });
+//   const button = ButtonComponent({
+//     icon: edit_icon,
+//     className: "button-icon__edit",
+//   });
 
-  form.appendChild(input_name);
-  form.appendChild(button);
+//   form.appendChild(input_name);
+//   form.appendChild(button);
 
-  directory_container.appendChild(form);
+//   directory_container.appendChild(form);
 
-  button.addEventListener("click", () => {
-    const employee = find_person("update-person");
-    update_employee_form_view(employee);
-  });
+//   button.addEventListener("click", () => {
+//     const employee = find_person("update-person");
+//     update_employee_form_view(employee);
+//   });
 
-  const employee_directory_list = DirectoryListCardsComponent();
+//   const employee_directory_list = DirectoryListCardsComponent();
 
-  directory_container.appendChild(employee_directory_list);
-}
+//   directory_container.appendChild(employee_directory_list);
+// }
 
 /***** VIEWS *****/
 
-function update_employee_form_view(employee) {
-  const update_form = document.getElementById("update-person-form");
-
+function update_employee_form_modal({ name, office_num, phone_num }) {
   const form = FormComponent({
     id: "insert-person",
     name: "insert-person",
   });
 
-  const input_name = InputComponent({
-    name: "name",
-    read_only: true,
-    value: employee.name,
-    type: "text",
-  });
-
   const input_office_num = InputComponent({
     name: "officeNum",
-    value: employee.officeNum,
+    value: office_num,
     type: "tel",
   });
 
   const input_phone_num = InputComponent({
     name: "phoneNum",
-    value: employee.phoneNum,
+    value: phone_num,
     type: "tel",
   });
 
   const button = ButtonComponent({
     icon: done_icon,
+    className: ["button-icon", "button-primary"],
   });
 
-  form.appendChild(input_name);
   form.appendChild(input_office_num);
   form.appendChild(input_phone_num);
   form.appendChild(button);
 
-  update_form.appendChild(form);
-
+  const modal = ModalComponent(form, name);
   button.addEventListener("click", () => {
     update_person();
   });
@@ -212,6 +203,27 @@ function verify_person_view(employee) {
 }
 
 /***** COMPONENTS *****/
+
+function ModalComponent(content, employee_name) {
+  const modal = document.getElementById("custom-modal");
+
+  const modal_content = document.getElementById("custom-modal-content");
+  const modal_title = document.getElementById("custom-modal-title");
+  const modal_close_action = document.getElementById(
+    "custom-modal-close-action"
+  );
+  // const modal_update_action = document.getElementById("")
+  modal_content.textContent = "";
+
+  modal_title.textContent = employee_name;
+  modal_content.appendChild(content);
+  modal_close_action.addEventListener(
+    "click",
+    () => (modal.style.display = "none")
+  );
+
+  modal.style.display = "block";
+}
 
 function DirectoryListCardsComponent() {
   const ul = document.createElement("ul");
@@ -243,10 +255,9 @@ function ListItemComponent({ name, office_num, phone_num }) {
     icon: delete_icon,
     className: ["button-icon", "button-icon__remove"],
   });
-
+  console.log(office_num);
   update_button.addEventListener("click", () => {
-    const employee = find_person("update-person");
-    update_employee_form_view(employee);
+    update_employee_form_modal({ name, office_num, phone_num });
   });
 
   delete_button.addEventListener("click", () => {
