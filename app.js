@@ -12,7 +12,7 @@ const close_icon = "./assets/icons/close.svg";
 $("#directory-list-page").on("click", directory_list_page);
 $("#add-employee-action").on("click", add_employee_form_modal);
 $("#directory-verify-person-page").on("click", directory_verify_person_page);
-$("#directory-delete-person-page").on("click", directory_delete_person_page);
+
 // $("#directory-update-person-page").on("click", directory_update_person_page);
 
 function init() {
@@ -41,33 +41,6 @@ function directory_list_page() {
 
   return directory_container.appendChild(employee_directory_list);
 }
-function directory_add_person_page() {
-  reset_view();
-
-  const form = FormComponent({
-    name: "insert-person",
-    id: "insert-person-form",
-  });
-
-  const input_name = InputComponent({ name: "name" });
-  const input_office_num = InputComponent({ name: "officeNum" });
-  const input_phone_num = InputComponent({ name: "phoneNum" });
-  const button = ButtonComponent({ icon: person_add_icon });
-
-  form.appendChild(input_name);
-  form.appendChild(input_office_num);
-  form.appendChild(input_phone_num);
-  form.appendChild(button);
-
-  directory_container.appendChild(form);
-  button.addEventListener("click", () => {
-    insert_person();
-  });
-
-  const employee_directory_list = DirectoryListCardsComponent();
-
-  directory_container.appendChild(employee_directory_list);
-}
 
 function directory_verify_person_page() {
   reset_view();
@@ -95,58 +68,6 @@ function directory_verify_person_page() {
 
   directory_container.appendChild(employee_directory_list);
 }
-
-function directory_delete_person_page() {
-  reset_view();
-
-  const form = FormComponent({ name: "delete-person" });
-  const input_name = InputComponent({ name: "name" });
-  const button = ButtonComponent({ icon: delete_icon });
-
-  form.appendChild(input_name);
-  form.appendChild(button);
-
-  directory_container.appendChild(form);
-  button.addEventListener("click", () => {
-    delete_person();
-  });
-
-  const employee_directory_list = DirectoryListCardsComponent();
-
-  directory_container.appendChild(employee_directory_list);
-}
-
-// function directory_update_person_page() {
-//   reset_view();
-
-//   const form = FormComponent({
-//     id: "update-person-form",
-//     name: "update-person",
-//   });
-
-//   const input_name = InputComponent({
-//     name: "employee-search",
-//   });
-
-//   const button = ButtonComponent({
-//     icon: edit_icon,
-//     className: "button-icon__edit",
-//   });
-
-//   form.appendChild(input_name);
-//   form.appendChild(button);
-
-//   directory_container.appendChild(form);
-
-//   button.addEventListener("click", () => {
-//     const employee = find_person("update-person");
-//     update_employee_form_view(employee);
-//   });
-
-//   const employee_directory_list = DirectoryListCardsComponent();
-
-//   directory_container.appendChild(employee_directory_list);
-// }
 
 /***** VIEWS *****/
 
@@ -362,6 +283,7 @@ function ButtonComponent({ icon = "", type = "button", className = [] } = {}) {
 /***** CRUD OPERATIONS *****/
 
 function update_person(form_id) {
+  if (!document.forms[form_id]) return;
   const forms = document.forms[form_id].getElementsByTagName("input");
   const inputs = Array.from(forms);
 
