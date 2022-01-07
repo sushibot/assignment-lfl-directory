@@ -104,11 +104,11 @@ a:active {
 .card {
   border: 1px solid var(--neutral);
   border-radius: 2px;
-  padding: 1rem 0.5rem;
-  width: 500px;
-  display: flex;
-  flex-direction: column;
+  padding: 1rem 2rem;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
   gap: 1rem;
+  align-items: center;
 }
 .card__selected {
   border: 1px solid var(--primary-dark);

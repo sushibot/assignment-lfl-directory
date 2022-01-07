@@ -233,14 +233,33 @@ function ListItemComponent({ name, office_num, phone_num }) {
   const office_num_label = document.createElement("label");
   const phone_num_label = document.createElement("label");
 
+  const update_button = ButtonComponent({ icon: edit_icon });
+  const delete_button = ButtonComponent({ icon: delete_icon });
+
+  update_button.addEventListener("click", () => {
+    const employee = find_person("update-person");
+    update_employee_form_view(employee);
+  });
+
+  delete_button.addEventListener("click", () => {
+    delete_person();
+  });
+
   name_label.innerText = name;
+  name_label.id = name;
+
   office_num_label.innerText = office_num;
+  office_num_label.id = office_num;
+
   phone_num_label.innerText = phone_num;
+  phone_num_label.id = phone_num;
 
   li.classList.add("card");
   li.appendChild(name_label);
   li.appendChild(office_num_label);
   li.appendChild(phone_num_label);
+  li.appendChild(update_button);
+  li.appendChild(delete_button);
 
   return li;
 }
@@ -286,6 +305,7 @@ function update_person() {
   const forms = document.forms["update-person"].getElementsByTagName("input");
   const inputs = Array.from(forms);
   const [search_input, name_input, office_num_input, phone_num_input] = inputs;
+
   const input_value = inputs[0].value.toLowerCase();
 
   if (!input_value) return alert("Please type in the name you wish to update.");
