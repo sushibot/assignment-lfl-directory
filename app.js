@@ -169,14 +169,8 @@ function update_employee_form_modal({ name, office_num, phone_num }) {
     type: "tel",
   });
 
-  const button = ButtonComponent({
-    icon: done_icon,
-    className: ["button-icon", "button-primary"],
-  });
-
   form.appendChild(input_office_num);
   form.appendChild(input_phone_num);
-  form.appendChild(button);
 
   const modal = ModalComponent(form, name, {
     button_action: update_person,
