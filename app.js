@@ -35,25 +35,10 @@ function reset_view() {
 /***** PAGE NAVIGATION OPERATIONS *****/
 function directory_list_page() {
   reset_view();
-  const ul = document.createElement("ul");
-  ul.classList.add("directory-list-container");
-  employeeList.forEach((employee) => {
-    const li = document.createElement("li");
-    const name = document.createElement("label");
-    const office_num = document.createElement("p");
-    const phone_num = document.createElement("p");
 
-    name.innerText = employee.name;
-    office_num.innerText = employee.officeNum;
-    phone_num.innerText = employee.phoneNum;
+  const employee_directory_list = DirectoryListCardsComponent();
 
-    li.classList.add("card");
-    li.appendChild(name);
-    li.appendChild(office_num);
-    li.appendChild(phone_num);
-    ul.appendChild(li);
-  });
-  directory_container.appendChild(ul);
+  directory_container.appendChild(employee_directory_list);
 }
 
 function directory_add_person_page() {
