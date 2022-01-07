@@ -255,33 +255,30 @@ function delete_person() {
 
   if (!input_value) return alert("Please type in the name you wish to delete.");
 
-  employeeList.forEach((employee, index) => {
-    const name = employee.name.toLowerCase();
-
-    if (name === input_value) {
-      employeeList.splice(index, 1);
-    }
-  });
-  update_localstorage();
-  alert(`Succesfully deleted ${input_value.toUpperCase()}!`);
+  const found_employee_index = employeeList.findIndex(
+    (employee) => employee.name.toLowerCase() === input_value
+  );
+  if (found_employee_index > -1) {
+    employeeList.splice(found_employee_index, 1);
+    return alert(`Succesfully deleted ${input_value.toUpperCase()}!`);
+  } else {
+    alert(`No record found for ${input_value.toUpperCase()}!`);
+  }
 }
 
 function find_person() {
   const forms = document.forms["verify-person"].getElementsByTagName("input");
   const inputs = Array.from(forms);
   const input_value = inputs[0].value.toLowerCase();
-  let result = false;
-  let found_employee = "";
-  if (!input_value) return alert("Please type in the name you wish to verify.");
-  employeeList.forEach((employee, index) => {
-    const name = employee.name.toLowerCase();
 
-    if (name === input_value) {
-      result = true;
-      found_employee = employee;
-    }
-  });
-  if (result) {
+  if (!input_value) return alert("Please type in the name you wish to verify.");
+  const found_employee_index = employeeList.findIndex(
+    (employee) => employee.name.toLowerCase() === input_value
+  );
+
+  if (found_employee_index > -1) {
+    const found_employee = employeeList[found_employee_index];
+
     return verify_person_view(found_employee);
   } else {
     return alert(
