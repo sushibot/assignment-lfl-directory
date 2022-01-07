@@ -11,9 +11,7 @@ const close_icon = "./assets/icons/close.svg";
 
 $("#directory-list-page").on("click", directory_list_page);
 $("#add-employee-action").on("click", add_employee_form_modal);
-$("#directory-verify-person-page").on("click", directory_verify_person_page);
-
-// $("#directory-update-person-page").on("click", directory_update_person_page);
+$("#search-employee-action").on("click", search_person_results_modal);
 
 function init() {
   return directory_list_page();
@@ -40,33 +38,6 @@ function directory_list_page() {
   const employee_directory_list = DirectoryListCardsComponent();
 
   return directory_container.appendChild(employee_directory_list);
-}
-
-function directory_verify_person_page() {
-  reset_view();
-
-  const form = FormComponent({
-    name: "verify-person",
-    id: "verify-person-form",
-  });
-
-  const input_name = InputComponent({ name: "name" });
-  const button = ButtonComponent({ icon: search_icon });
-
-  form.appendChild(input_name);
-
-  form.appendChild(button);
-
-  directory_container.appendChild(form);
-
-  button.addEventListener("click", () => {
-    const employee = find_person("verify-person");
-    verify_person_view(employee);
-  });
-
-  const employee_directory_list = DirectoryListCardsComponent();
-
-  directory_container.appendChild(employee_directory_list);
 }
 
 /***** VIEWS *****/
@@ -133,31 +104,28 @@ function update_employee_form_modal({ name, office_num, phone_num }) {
   });
 }
 
-function verify_person_view(employee) {
-  const div = document.createElement("div");
-  const name = document.createElement("label");
-  const office_num = document.createElement("p");
-  const phone_num = document.createElement("p");
+function search_person_results_modal() {
+  const form_name = "search-employee";
+  const employee = find_person(form_name);
 
-  const lookup_form = document.getElementById("verify-person-form");
-  name.innerText = employee.name;
-  office_num.innerText = employee.officeNum;
-  phone_num.innerText = employee.phoneNum;
+  if (!employee) return alert(`No employee found for given name.`);
 
-  div.classList.add("card__selected");
-  div.appendChild(name);
-  div.appendChild(office_num);
-  div.appendChild(phone_num);
-  lookup_form.parentNode.insertBefore(div, lookup_form.nextSibling);
+  const employee_details = ListItemComponent({
+    name: employee.name,
+    office_num: employee.officeNum,
+    phone_num: employee.phoneNum,
+    display_actions: false,
+  });
+  const modal = ModalComponent(employee_details, "Employee Search");
 }
 
 /***** COMPONENTS *****/
 
 function ModalComponent(
   content,
-  title = "",
+  title,
   form_id,
-  { button_name, button_action }
+  { button_name, button_action } = {}
 ) {
   const modal = document.getElementById("custom-modal");
 
@@ -171,9 +139,9 @@ function ModalComponent(
     "custom-modal-action-button"
   );
 
-  modal_title.textContent = title;
-  modal_custom_action.classList.add("button-primary");
-  modal_custom_action.textContent = button_name;
+  if (title) {
+    modal_title.textContent = title;
+  }
 
   modal_content.appendChild(content);
 
@@ -184,7 +152,11 @@ function ModalComponent(
     modal_content.textContent = "";
   });
 
-  modal_custom_action.addEventListener("click", () => button_action(form_id));
+  if (form_id) {
+    modal_custom_action.classList.add("button-primary");
+    modal_custom_action.textContent = button_name;
+    modal_custom_action.addEventListener("click", () => button_action(form_id));
+  }
 }
 
 function DirectoryListCardsComponent() {
@@ -202,39 +174,45 @@ function DirectoryListCardsComponent() {
   return ul;
 }
 
-function ListItemComponent({ name, office_num, phone_num }) {
+function ListItemComponent({
+  name,
+  office_num,
+  phone_num,
+  display_actions = true,
+} = {}) {
   const li = document.createElement("li");
   const name_label = document.createElement("label");
   const office_num_label = document.createElement("label");
   const phone_num_label = document.createElement("label");
   const div = document.createElement("div");
 
-  const update_button = ButtonComponent({
-    icon: edit_icon,
-    className: ["button-icon", "button-icon__edit"],
-  });
-  const delete_button = ButtonComponent({
-    icon: delete_icon,
-    className: ["button-icon", "button-icon__remove"],
-  });
-
-  update_button.addEventListener("click", () => {
-    update_employee_form_modal({ name, office_num, phone_num });
-  });
-
-  delete_button.addEventListener("click", () => {
-    delete_person(name);
-  });
-
   name_label.innerText = name;
   office_num_label.innerText = office_num;
   phone_num_label.innerText = phone_num;
 
   li.classList.add("card");
-  div.classList.add("card-actions");
+  if (display_actions) {
+    div.classList.add("card-actions");
 
-  div.appendChild(update_button);
-  div.appendChild(delete_button);
+    const update_button = ButtonComponent({
+      icon: edit_icon,
+      className: ["button-icon", "button-icon__edit"],
+    });
+    const delete_button = ButtonComponent({
+      icon: delete_icon,
+      className: ["button-icon", "button-icon__remove"],
+    });
+
+    update_button.addEventListener("click", () => {
+      update_employee_form_modal({ name, office_num, phone_num });
+    });
+
+    delete_button.addEventListener("click", () => {
+      delete_person(name);
+    });
+    div.appendChild(update_button);
+    div.appendChild(delete_button);
+  }
 
   li.appendChild(name_label);
   li.appendChild(office_num_label);
@@ -356,9 +334,7 @@ function find_person(form_name) {
 
     return found_employee;
   } else {
-    return alert(
-      `No employee found under the name ${input_value.toUpperCase()}`
-    );
+    return null;
   }
 }
 

@@ -103,23 +103,35 @@ a:active {
 
   gap: 1rem;
 }
+
+/****************************/
+
+/***** FORM STYLES *****/
+input {
+  border: 1px solid var(--neutral);
+  border-radius: 0.25rem;
+  padding: 1rem;
+}
 .directory-form-container {
   display: flex;
   gap: 0.25rem;
 }
+.employee-form-container {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
 
 .form-input {
-  border: 1px solid var(--neutral);
-  padding: 0.25rem;
-  border-radius: 4px;
   width: 100%;
-  padding: 1rem;
+}
+.search-input {
+  width: 50%;
 }
 
 /****************************/
 
 /***** CARD STYLES *****/
-
 .card {
   display: grid;
   grid-template-columns: 2fr repeat(2, 1fr) 0.5fr;
@@ -159,6 +171,14 @@ button {
 .button-primary {
   background-color: var(--primary);
   color: var(--neutral);
+  padding: 0.5rem 2rem;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.button-secondary {
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  background-color: white;
   padding: 0.5rem 2rem;
   text-transform: uppercase;
   font-weight: 600;
