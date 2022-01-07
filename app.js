@@ -156,43 +156,21 @@ function directory_verify_person_page() {
 function directory_delete_person_page() {
   reset_view();
 
-  const form = document.createElement("form");
-  const input_name = document.createElement("input");
-  const button = document.createElement("button");
-  const button_icon = document.createElement("img");
-  form.classList.add("directory-form-container");
+  const form = FormComponent({ name: "delete-person" });
+  const input_name = InputComponent({ name: "name" });
+  const button = ButtonComponent({ icon: delete_icon });
 
-  button_icon.setAttribute("src", delete_icon);
-  button.appendChild(button_icon);
-  button.type = "button";
-  input_name.classList.add("form-input");
-  input_name.name = "name";
   form.appendChild(input_name);
   form.appendChild(button);
-  form.name = "delete-person";
 
   directory_container.appendChild(form);
-  button.addEventListener("click", () => delete_person());
-
-  const ul = document.createElement("ul");
-  ul.classList.add("directory-list-container");
-  employeeList.forEach((employee) => {
-    const li = document.createElement("li");
-    const name = document.createElement("label");
-    const office_num = document.createElement("p");
-    const phone_num = document.createElement("p");
-
-    name.innerText = employee.name;
-    office_num.innerText = employee.officeNum;
-    phone_num.innerText = employee.phoneNum;
-
-    li.classList.add("card");
-    li.appendChild(name);
-    li.appendChild(office_num);
-    li.appendChild(phone_num);
-    ul.appendChild(li);
+  button.addEventListener("click", () => {
+    delete_person();
   });
-  directory_container.appendChild(ul);
+
+  const employee_directory_list = DirectoryListCardComponent();
+
+  directory_container.appendChild(employee_directory_list);
 }
 
 function directory_update_person_page() {
@@ -206,6 +184,7 @@ function directory_update_person_page() {
   const input_name = InputComponent({
     name: "employee-search",
   });
+
   const button = ButtonComponent({
     icon: edit_icon,
   });
