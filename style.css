@@ -52,6 +52,7 @@ a:active {
   justify-content: space-between;
   align-items: center;
 }
+/****************************/
 
 /***** NAVIGATION STYLES *****/
 .navigation-container {
@@ -199,6 +200,7 @@ button {
 .button-icon__remove:hover {
   background-color: var(--warning);
 }
+/****************************/
 
 /***** MODAL STYLES *****/
 
@@ -239,3 +241,4 @@ button {
 .modal-contents__hide {
   display: none;
 }
+/****************************/
