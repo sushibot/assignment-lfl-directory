@@ -182,9 +182,6 @@ function update_employee_form_modal({ name, office_num, phone_num }) {
     button_action: update_person,
     button_name: "Update",
   });
-  // button.addEventListener("click", () => {
-  //   update_person();
-  // });
 }
 
 function verify_person_view(employee) {
@@ -278,7 +275,7 @@ function ListItemComponent({ name, office_num, phone_num }) {
   });
 
   delete_button.addEventListener("click", () => {
-    delete_person();
+    delete_person(name);
   });
 
   name_label.innerText = name;
@@ -377,24 +374,20 @@ function insert_person() {
   directory_add_person_page();
 }
 
-function delete_person() {
-  const forms = document.forms["delete-person"].getElementsByTagName("input");
-  const inputs = Array.from(forms);
-  const input_value = inputs[0].value.toLowerCase();
-
-  if (!input_value) return alert("Please type in the name you wish to delete.");
-
+function delete_person(employee_name) {
   const found_employee_index = employeeList.findIndex(
-    (employee) => employee.name.toLowerCase() === input_value
+    (employee) => employee.name.toLowerCase() === employee_name.toLowerCase()
   );
+
   if (found_employee_index > -1) {
     employeeList.splice(found_employee_index, 1);
-    alert(`Succesfully deleted ${input_value.toUpperCase()}!`);
+
+    alert(`Succesfully deleted ${employee_name.toUpperCase()}!`);
   } else {
-    alert(`No record found for ${input_value.toUpperCase()}!`);
+    alert(`No record found for ${employee_name.toUpperCase()}!`);
   }
 
-  directory_delete_person_page();
+  directory_list_page();
 }
 
 function find_person(form_name) {
