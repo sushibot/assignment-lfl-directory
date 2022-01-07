@@ -44,6 +44,15 @@ a:active {
   display: flex;
 }
 
+/***** HEADER STYLES *****/
+.header-container {
+  margin-left: 15rem;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 /***** NAVIGATION STYLES *****/
 .navigation-container {
   background-color: var(--primary);
@@ -144,6 +153,7 @@ a:active {
 button {
   border: none;
   border-radius: 4px;
+  cursor: pointer;
 }
 
 .button-primary {
@@ -152,7 +162,6 @@ button {
   padding: 0.5rem 2rem;
   text-transform: uppercase;
   font-weight: 600;
-  cursor: pointer;
 }
 .button-icon {
   width: 100%;
@@ -162,14 +171,13 @@ button {
 
 .button-icon__edit:hover {
   background-color: var(--secondary);
-  cursor: pointer;
 }
 .button-icon__remove:hover {
   background-color: var(--warning);
-  cursor: pointer;
 }
 
 /***** MODAL STYLES *****/
+
 .modal {
   display: none;
   position: fixed;
