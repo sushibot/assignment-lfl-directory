@@ -71,9 +71,7 @@ function directory_add_person_page() {
   form.name = "insert-person";
   form.id = "insert-person-form";
   directory_container.appendChild(form);
-  button.addEventListener("click", () => {
-    insert_person();
-  });
+  button.addEventListener("click", () => insert_person());
 }
 
 function directory_verify_person_page() {
@@ -85,14 +83,18 @@ function directory_verify_person_page() {
 
   button_icon.setAttribute("src", search_icon);
   button.appendChild(button_icon);
+  button.type = "button";
   input_name.classList.add("form-input");
 
   form.appendChild(input_name);
   form.appendChild(button);
   form.classList.add("directory-form-container");
+  form.name = "verify-person";
 
   directory_container.appendChild(form);
+  button.addEventListener("click", () => find_person());
 }
+
 function directory_delete_person_page() {
   reset_view();
 
@@ -112,9 +114,24 @@ function directory_delete_person_page() {
   form.name = "delete-person";
 
   directory_container.appendChild(form);
-  button.addEventListener("click", () => {
-    delete_person();
-  });
+  button.addEventListener("click", () => delete_person());
+}
+
+function verify_person_view(employee) {
+  const div = document.createElement("div");
+  const name = document.createElement("label");
+  const office_num = document.createElement("p");
+  const phone_num = document.createElement("p");
+
+  name.innerText = employee.name;
+  office_num.innerText = employee.officeNum;
+  phone_num.innerText = employee.phoneNum;
+
+  div.classList.add("card");
+  div.appendChild(name);
+  div.appendChild(office_num);
+  div.appendChild(phone_num);
+  directory_container.appendChild(div);
 }
 
 function insert_person() {
@@ -132,6 +149,7 @@ function insert_person() {
   });
   employeeList.push(new_person);
   update_localstorage();
+  alert(`Succesfully added ${new_person.name.toUpperCase()}!`);
 }
 
 function delete_person() {
@@ -150,6 +168,32 @@ function delete_person() {
     }
   });
   update_localstorage();
+  alert(`Succesfully deleted ${input_value.toUpperCase()}!`);
+}
+
+function find_person() {
+  const forms = document.forms["verify-person"].getElementsByTagName("input");
+  const inputs = Array.from(forms);
+  const input_value = inputs[0].value.toLowerCase();
+  let result = false;
+  let found_employee = "";
+  if (!input_value)
+    return alert("Please fill in the person you wish to verify.");
+  employeeList.forEach((employee, index) => {
+    const name = employee.name.toLowerCase();
+
+    if (name === input_value) {
+      result = true;
+      found_employee = employee;
+    }
+  });
+  if (result) {
+    return verify_person_view(found_employee);
+  } else {
+    return alert(
+      `No employee found under the name ${input_value.toUpperCase()}`
+    );
+  }
 }
 
 init();
