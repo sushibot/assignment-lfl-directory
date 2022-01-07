@@ -2,13 +2,19 @@
 const directory_container = document.getElementById("directory");
 const person_add_icon = "./assets/icons/person_add.svg";
 const search_icon = "./assets/icons/search.svg";
+const delete_icon = "./assets/icons/delete.svg";
 
 $("#directory-list-page").on("click", directory_list_page);
 $("#directory-add-person-page").on("click", directory_add_person_page);
 $("#directory-verify-person-page").on("click", directory_verify_person_page);
+$("#directory-delete-person-page").on("click", directory_delete_person_page);
 
 function init() {
   return directory_list_page();
+}
+
+function update_localstorage() {
+  localStorage.setItem("directory", JSON.stringify(employeeList));
 }
 
 function reset_view() {
@@ -87,6 +93,29 @@ function directory_verify_person_page() {
 
   directory_container.appendChild(form);
 }
+function directory_delete_person_page() {
+  reset_view();
+
+  const form = document.createElement("form");
+  const input_name = document.createElement("input");
+  const button = document.createElement("button");
+  const button_icon = document.createElement("img");
+  form.classList.add("directory-form-container");
+
+  button_icon.setAttribute("src", delete_icon);
+  button.appendChild(button_icon);
+  button.type = "button";
+  input_name.classList.add("form-input");
+  input_name.name = "name";
+  form.appendChild(input_name);
+  form.appendChild(button);
+  form.name = "delete-person";
+
+  directory_container.appendChild(form);
+  button.addEventListener("click", () => {
+    delete_person();
+  });
+}
 
 function insert_person() {
   const forms = document.forms["insert-person"].getElementsByTagName("input");
@@ -97,11 +126,29 @@ function insert_person() {
     phoneNum: "",
   };
   inputs.forEach((input) => {
-    if (input.validity.valid) {
+    if (input.value) {
       new_person[input.name] = input.value;
     }
   });
   employeeList.push(new_person);
+  update_localstorage();
+}
+
+function delete_person() {
+  const forms = document.forms["delete-person"].getElementsByTagName("input");
+  const inputs = Array.from(forms);
+  const input_value = inputs[0].value.toLowerCase();
+
+  if (!input_value)
+    return alert("Please fill in the person you wish to delete.");
+
+  employeeList.forEach((employee, index) => {
+    const name = employee.name.toLowerCase();
+
+    if (name === input_value) {
+      employeeList.splice(index, 1);
+    }
+  });
   update_localstorage();
 }
 
