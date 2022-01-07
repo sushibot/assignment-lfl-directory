@@ -9,7 +9,7 @@
   </head>
 
   <body>
-    <main class="container">
+    <main id="main-container" class="container">
       <aside class="navigation-container">
         <nav class="navigation-list">
           <ol>
@@ -17,29 +17,28 @@
               <img src="./assets/icons/contacts.svg" alt="" />
             </li>
             <li>
-              <a href="#">View</a>
+              <a href="#" id="directory-list-page">View</a>
             </li>
             <li>
-              <a href="#">Add</a>
+              <a href="#" id="directory-add-person-page">Add</a>
             </li>
             <li>
-              <a href="#">Verfiy</a>
+              <a href="#" id="directory-verify-person-page">Verfiy</a>
             </li>
             <li>
-              <a href="#">Update</a>
+              <a href="#" id="directory-update-person-page">Update</a>
             </li>
             <li>
-              <a href="#">Delete</a>
+              <a href="#" id="directory-delete-person-page">Delete</a>
             </li>
           </ol>
         </nav>
       </aside>
-      <section class="directory-container">
+      <section id="directory" class="directory-container">
         <form class="directory-form-container">
           <input type="text" />
           <input type="text" />
           <input type="text" />
-
           <button class="button" type="button">
             <img src="./assets/icons/search.svg" alt="" />
           </button>
@@ -50,11 +49,6 @@
             <img src="./assets/icons/person_add.svg" alt="" />
           </button>
         </form>
-        <div class="card">
-          <label> Jan</label>
-          <p>1</p>
-          <p>222-222-222</p>
-        </div>
       </section>
     </main>
     <script src="dom.js"></script>
