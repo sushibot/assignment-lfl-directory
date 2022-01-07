@@ -1,4 +1,4 @@
-let employeeList = [
+const employeeList = [
   {
     name: "Jan",
     officeNum: 1,

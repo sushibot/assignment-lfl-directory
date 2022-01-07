@@ -1,5 +1,6 @@
 // Your work here
 const directory_container = document.getElementById("directory");
+let global_employee_name = "";
 
 const person_add_icon = "./assets/icons/person_add.svg";
 const search_icon = "./assets/icons/search.svg";
@@ -9,7 +10,7 @@ const done_icon = "./assets/icons/done.svg";
 const close_icon = "./assets/icons/close.svg";
 
 $("#directory-list-page").on("click", directory_list_page);
-$("#directory-add-person-page").on("click", directory_add_person_page);
+$("#add-employee-action").on("click", add_employee_form_modal);
 $("#directory-verify-person-page").on("click", directory_verify_person_page);
 $("#directory-delete-person-page").on("click", directory_delete_person_page);
 // $("#directory-update-person-page").on("click", directory_update_person_page);
@@ -36,12 +37,10 @@ function reset_view() {
 /***** PAGE NAVIGATION OPERATIONS *****/
 function directory_list_page() {
   reset_view();
-
   const employee_directory_list = DirectoryListCardsComponent();
 
-  directory_container.appendChild(employee_directory_list);
+  return directory_container.appendChild(employee_directory_list);
 }
-
 function directory_add_person_page() {
   reset_view();
 
@@ -151,9 +150,41 @@ function directory_delete_person_page() {
 
 /***** VIEWS *****/
 
-function update_employee_form_modal({ name, office_num, phone_num }) {
+function add_employee_form_modal() {
+  const form_id = "add-new-employee";
   const form = FormComponent({
-    id: `update-${name.toLowerCase()}`,
+    id: form_id,
+    name: "add-new-employee",
+  });
+
+  const input_name = InputComponent({
+    name: "name",
+    type: "text",
+  });
+  const input_office_num = InputComponent({
+    name: "officeNum",
+    type: "tel",
+  });
+
+  const input_phone_num = InputComponent({
+    name: "phoneNum",
+    type: "tel",
+  });
+
+  form.appendChild(input_name);
+  form.appendChild(input_office_num);
+  form.appendChild(input_phone_num);
+
+  const modal = ModalComponent(form, "Add Employee", form_id, {
+    button_action: insert_person,
+    button_name: "Add",
+  });
+}
+
+function update_employee_form_modal({ name, office_num, phone_num }) {
+  const form_id = `update-${name.toLowerCase()}`;
+  const form = FormComponent({
+    id: form_id,
     name: "update-person",
   });
 
@@ -172,7 +203,10 @@ function update_employee_form_modal({ name, office_num, phone_num }) {
   form.appendChild(input_office_num);
   form.appendChild(input_phone_num);
 
-  const modal = ModalComponent(form, name, {
+  global_employee_name = name;
+  const title = name;
+
+  const modal = ModalComponent(form, title, form_id, {
     button_action: update_person,
     button_name: "Update",
   });
@@ -200,7 +234,8 @@ function verify_person_view(employee) {
 
 function ModalComponent(
   content,
-  employee_name,
+  title = "",
+  form_id,
   { button_name, button_action }
 ) {
   const modal = document.getElementById("custom-modal");
@@ -215,7 +250,7 @@ function ModalComponent(
     "custom-modal-action-button"
   );
 
-  modal_title.textContent = employee_name;
+  modal_title.textContent = title;
   modal_custom_action.classList.add("button-primary");
   modal_custom_action.textContent = button_name;
 
@@ -227,10 +262,8 @@ function ModalComponent(
     modal.style.display = "none";
     modal_content.textContent = "";
   });
-  const form_id = `update-${employee_name.toLowerCase()}`;
-  modal_custom_action.addEventListener("click", () =>
-    button_action(employee_name, form_id)
-  );
+
+  modal_custom_action.addEventListener("click", () => button_action(form_id));
 }
 
 function DirectoryListCardsComponent() {
@@ -328,44 +361,46 @@ function ButtonComponent({ icon = "", type = "button", className = [] } = {}) {
 
 /***** CRUD OPERATIONS *****/
 
-function update_person(employee_name, form_id) {
+function update_person(form_id) {
   const forms = document.forms[form_id].getElementsByTagName("input");
   const inputs = Array.from(forms);
 
   const [office_num_input, phone_num_input] = inputs;
 
   const employee = employeeList.find(
-    (employee) => employee.name.toLowerCase() === employee_name.toLowerCase()
+    (employee) =>
+      employee.name.toLowerCase() === global_employee_name.toLowerCase()
   );
 
   employee.officeNum = office_num_input.value;
   employee.phoneNum = phone_num_input.value;
 
-  alert(`Succesfully updated record for ${employee_name}`);
+  alert(`Succesfully updated record for ${global_employee_name}`);
 
   if (!employee) return alert(`No matching record found for ${input_value}`);
 
   directory_list_page();
 }
 
-function insert_person() {
-  const forms = document.forms["insert-person"].getElementsByTagName("input");
+function insert_person(form_id) {
+  const forms = document.forms[form_id].getElementsByTagName("input");
   const inputs = Array.from(forms);
   let new_person = {
     name: "",
     officeNum: "",
     phoneNum: "",
   };
+
   inputs.forEach((input) => {
-    console.log(input.value);
     if (input.value !== "") {
       new_person[input.name] = input.value;
     }
   });
-  employeeList.push(new_person);
 
+  employeeList.push(new_person);
+  console.log(employeeList);
   alert(`Succesfully added ${new_person.name.toUpperCase()}!`);
-  directory_add_person_page();
+  directory_list_page();
 }
 
 function delete_person(employee_name) {
