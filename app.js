@@ -197,21 +197,21 @@ function directory_delete_person_page() {
 
 function directory_update_person_page() {
   reset_view();
-  const form = document.createElement("form");
-  const input_name = document.createElement("input");
-  const button = document.createElement("button");
-  const button_icon = document.createElement("img");
 
-  button_icon.setAttribute("src", edit_icon);
-  button.appendChild(button_icon);
-  button.type = "button";
-  input_name.classList.add("form-input");
+  const form = FormComponent({
+    id: "update-person-form",
+    name: "update-person",
+  });
+
+  const input_name = InputComponent({
+    name: "employee-search",
+  });
+  const button = ButtonComponent({
+    icon: edit_icon,
+  });
 
   form.appendChild(input_name);
   form.appendChild(button);
-  form.classList.add("directory-form-container");
-  form.name = "update-person";
-  form.id = "update-person-form";
 
   directory_container.appendChild(form);
 
@@ -220,27 +220,11 @@ function directory_update_person_page() {
     update_employee_form_view(employee);
   });
 
-  const ul = document.createElement("ul");
-  ul.classList.add("directory-list-container");
-  employeeList.forEach((employee) => {
-    const li = document.createElement("li");
-    const name = document.createElement("label");
-    const office_num = document.createElement("p");
-    const phone_num = document.createElement("p");
+  const employee_directory_list = DirectoryListCardComponent();
 
-    name.innerText = employee.name;
-    office_num.innerText = employee.officeNum;
-    phone_num.innerText = employee.phoneNum;
-
-    li.classList.add("card");
-    li.appendChild(name);
-    li.appendChild(office_num);
-    li.appendChild(phone_num);
-    ul.appendChild(li);
-  });
-  directory_container.appendChild(ul);
+  directory_container.appendChild(employee_directory_list);
 }
-
+/***** VIEWS *****/
 function update_employee_form_view(employee) {
   const update_form = document.getElementById("update-person-form");
 
@@ -302,6 +286,40 @@ function verify_person_view(employee) {
 }
 
 /***** COMPONENTS *****/
+
+function DirectoryListCardComponent() {
+  const ul = document.createElement("ul");
+  ul.classList.add("directory-list-container");
+
+  employeeList.forEach((employee) => {
+    const list_item = ListItemComponent({
+      name: employee.name,
+      office_num: employee.officeNum,
+      phone_num: employee.phoneNum,
+    });
+    ul.appendChild(list_item);
+  });
+  return ul;
+}
+
+function ListItemComponent({ name, office_num, phone_num }) {
+  const li = document.createElement("li");
+  const name_label = document.createElement("label");
+  const office_num_label = document.createElement("label");
+  const phone_num_label = document.createElement("label");
+
+  name_label.innerText = name;
+  office_num_label.innerText = office_num;
+  phone_num_label.innerText = phone_num;
+
+  li.classList.add("card");
+  li.appendChild(name_label);
+  li.appendChild(office_num_label);
+  li.appendChild(phone_num_label);
+
+  return li;
+}
+
 function FormComponent({ id = "", name = "" } = {}) {
   const form = document.createElement("form");
   form.name = name;
@@ -309,6 +327,7 @@ function FormComponent({ id = "", name = "" } = {}) {
   form.classList.add("directory-form-container");
   return form;
 }
+
 function InputComponent({
   name,
   value = "",
@@ -335,6 +354,7 @@ function ButtonComponent({ icon = "", type = "button" } = {}) {
 
   return button;
 }
+
 /***** CRUD OPERATIONS *****/
 function update_person() {
   const forms = document.forms["update-person"].getElementsByTagName("input");
