@@ -79,30 +79,34 @@ function directory_add_person_page() {
     insert_person();
   });
 
-  const employee_directory_list = DirectoryListCardComponent();
+  const employee_directory_list = DirectoryListCardsComponent();
 
   directory_container.appendChild(employee_directory_list);
 }
 
 function directory_verify_person_page() {
   reset_view();
+
   const form = FormComponent({
     name: "verify-person",
     id: "verify-person-form",
   });
+
   const input_name = InputComponent({ name: "name" });
   const button = ButtonComponent({ icon: search_icon });
 
   form.appendChild(input_name);
+
   form.appendChild(button);
 
   directory_container.appendChild(form);
+
   button.addEventListener("click", () => {
     const employee = find_person("verify-person");
     verify_person_view(employee);
   });
 
-  const employee_directory_list = DirectoryListCardComponent();
+  const employee_directory_list = DirectoryListCardsComponent();
 
   directory_container.appendChild(employee_directory_list);
 }
@@ -122,7 +126,7 @@ function directory_delete_person_page() {
     delete_person();
   });
 
-  const employee_directory_list = DirectoryListCardComponent();
+  const employee_directory_list = DirectoryListCardsComponent();
 
   directory_container.appendChild(employee_directory_list);
 }
@@ -153,7 +157,7 @@ function directory_update_person_page() {
     update_employee_form_view(employee);
   });
 
-  const employee_directory_list = DirectoryListCardComponent();
+  const employee_directory_list = DirectoryListCardsComponent();
 
   directory_container.appendChild(employee_directory_list);
 }
@@ -223,7 +227,7 @@ function verify_person_view(employee) {
 
 /***** COMPONENTS *****/
 
-function DirectoryListCardComponent() {
+function DirectoryListCardsComponent() {
   const ul = document.createElement("ul");
   ul.classList.add("directory-list-container");
 
