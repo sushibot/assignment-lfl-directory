@@ -244,40 +244,44 @@ function directory_update_person_page() {
 function update_employee_form_view(employee) {
   const update_form = document.getElementById("update-person-form");
 
-  const form = document.createElement("form");
-  const input_name = document.createElement("input");
-  const input_office_num = document.createElement("input");
-  const input_phone_num = document.createElement("input");
-  const button = document.createElement("button");
-  const button_icon = document.createElement("img");
+  const form = FormComponent({
+    id: "insert-person",
+    name: "insert-person",
+  });
 
-  button_icon.setAttribute("src", done_icon);
-  button.appendChild(button_icon);
-  button.type = "button";
+  const input_name = InputComponent({
+    name: "name",
+    read_only: true,
+    value: employee.name,
+    type: "text",
+  });
 
-  form.classList.add("directory-form-container");
+  const input_office_num = InputComponent({
+    name: "officeNum",
+    value: employee.officeNum,
+    type: "tel",
+  });
 
-  input_name.classList.add("form-input");
-  input_name.name = "name";
-  input_name.value = employee.name;
-  input_name.readOnly = true;
+  const input_phone_num = InputComponent({
+    name: "phoneNum",
+    value: employee.phoneNum,
+    type: "tel",
+  });
 
-  input_office_num.classList.add("form-input");
-  input_office_num.name = "officeNum";
-  input_office_num.value = employee.officeNum;
-
-  input_phone_num.classList.add("form-input");
-  input_phone_num.name = "phoneNum";
-  input_phone_num.value = employee.phoneNum;
+  const button = ButtonComponent({
+    icon: done_icon,
+  });
 
   form.appendChild(input_name);
   form.appendChild(input_office_num);
   form.appendChild(input_phone_num);
   form.appendChild(button);
-  form.name = "insert-person";
-  form.id = "insert-person-form";
+
   update_form.appendChild(form);
-  button.addEventListener("click", () => update_person);
+
+  button.addEventListener("click", () => {
+    update_person();
+  });
 }
 
 function verify_person_view(employee) {
@@ -298,27 +302,55 @@ function verify_person_view(employee) {
 }
 
 /***** COMPONENTS *****/
-
-function input_component({ name, value = "", read_only = false } = {}) {
+function FormComponent({ id = "", name = "" } = {}) {
+  const form = document.createElement("form");
+  form.name = name;
+  form.id = id;
+  form.classList.add("directory-form-container");
+  return form;
+}
+function InputComponent({
+  name,
+  value = "",
+  read_only = false,
+  type = "",
+} = {}) {
   const input = document.createElement("input");
-  if (value) {
-    input.value = value;
-  }
+  input.type = type;
+
+  input.value = value;
+  input.name = name;
   input.readOnly = read_only;
   input.classList.add("form-input");
   return input;
+}
+
+function ButtonComponent({ icon = "", type = "button" } = {}) {
+  const button = document.createElement("button");
+  button.type = type;
+
+  const img_icon = document.createElement("img");
+  img_icon.setAttribute("src", icon);
+  button.appendChild(img_icon);
+
+  return button;
 }
 /***** CRUD OPERATIONS *****/
 function update_person() {
   const forms = document.forms["update-person"].getElementsByTagName("input");
   const inputs = Array.from(forms);
+  const [search_input, name_input, office_num_input, phone_num_input] = inputs;
   const input_value = inputs[0].value.toLowerCase();
+
   if (!input_value) return alert("Please type in the name you wish to update.");
   const employee = employeeList.find(
     (employee) => employee.name.toLowerCase() === input_value
   );
+  employee.officeNum = office_num_input.value;
+  employee.phoneNum = phone_num_input.value;
+  alert(`Succesfully updated record for ${name_input.value}`);
   if (!employee) return alert(`No matching record found for ${input_value}`);
-  update_employee_form_view();
+  directory_update_person_page();
 }
 
 function insert_person() {
