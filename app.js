@@ -246,13 +246,8 @@ function ListItemComponent({ name, office_num, phone_num }) {
   });
 
   name_label.innerText = name;
-  name_label.id = name;
-
   office_num_label.innerText = office_num;
-  office_num_label.id = office_num;
-
   phone_num_label.innerText = phone_num;
-  phone_num_label.id = phone_num;
 
   li.classList.add("card");
   li.appendChild(name_label);
