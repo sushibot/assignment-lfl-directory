@@ -111,20 +111,12 @@ function directory_add_person_page() {
 
 function directory_verify_person_page() {
   reset_view();
-  const form = document.createElement("form");
-  const input_name = document.createElement("input");
-  const button = document.createElement("button");
-  const button_icon = document.createElement("img");
-
-  button_icon.setAttribute("src", search_icon);
-  button.appendChild(button_icon);
-  button.type = "button";
-  input_name.classList.add("form-input");
+  const form = FormComponent({ name: "verify-person" });
+  const input_name = InputComponent({ name: "name" });
+  const button = ButtonComponent({ icon: search_icon });
 
   form.appendChild(input_name);
   form.appendChild(button);
-  form.classList.add("directory-form-container");
-  form.name = "verify-person";
 
   directory_container.appendChild(form);
   button.addEventListener("click", () => {
@@ -132,25 +124,9 @@ function directory_verify_person_page() {
     verify_person_view(employee);
   });
 
-  const ul = document.createElement("ul");
-  ul.classList.add("directory-list-container");
-  employeeList.forEach((employee) => {
-    const li = document.createElement("li");
-    const name = document.createElement("label");
-    const office_num = document.createElement("p");
-    const phone_num = document.createElement("p");
+  const employee_directory_list = DirectoryListCardComponent();
 
-    name.innerText = employee.name;
-    office_num.innerText = employee.officeNum;
-    phone_num.innerText = employee.phoneNum;
-
-    li.classList.add("card");
-    li.appendChild(name);
-    li.appendChild(office_num);
-    li.appendChild(phone_num);
-    ul.appendChild(li);
-  });
-  directory_container.appendChild(ul);
+  directory_container.appendChild(employee_directory_list);
 }
 
 function directory_delete_person_page() {
