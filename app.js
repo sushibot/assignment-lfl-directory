@@ -116,7 +116,7 @@ function search_person_results_modal() {
     phone_num: employee.phoneNum,
     display_actions: false,
   });
-  const modal = ModalComponent(employee_details, "Employee Search");
+  const modal = ModalComponent(employee_details, "Employee Search", null);
 }
 
 /***** COMPONENTS *****/
@@ -150,6 +150,7 @@ function ModalComponent(
   modal_close_action.addEventListener("click", () => {
     modal.style.display = "none";
     modal_content.textContent = "";
+    modal_custom_action.textContent = "";
   });
 
   if (form_id) {

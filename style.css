@@ -64,7 +64,7 @@ a:active {
   bottom: 0px;
 }
 .navigation-list {
-  margin: 4rem;
+  margin: 2rem;
   text-align: center;
   position: sticky;
 
@@ -79,6 +79,10 @@ a:active {
 .navigation-list ol .navigation-list-item {
   text-transform: uppercase;
   font-weight: 600;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  color: white;
 }
 .navigation-list ol .navigation-list-item__active {
   color: yellow;
@@ -226,8 +230,7 @@ button {
   justify-content: space-between;
   align-items: center;
 }
-.modal-content {
-}
+
 .modal-actions {
   display: flex;
   gap: 1rem;
