@@ -111,7 +111,10 @@ function directory_add_person_page() {
 
 function directory_verify_person_page() {
   reset_view();
-  const form = FormComponent({ name: "verify-person" });
+  const form = FormComponent({
+    name: "verify-person",
+    id: "verify-person-form",
+  });
   const input_name = InputComponent({ name: "name" });
   const button = ButtonComponent({ icon: search_icon });
 
@@ -120,7 +123,7 @@ function directory_verify_person_page() {
 
   directory_container.appendChild(form);
   button.addEventListener("click", () => {
-    const employee = find_person(form.name);
+    const employee = find_person("verify-person");
     verify_person_view(employee);
   });
 
@@ -171,7 +174,7 @@ function directory_update_person_page() {
   directory_container.appendChild(form);
 
   button.addEventListener("click", () => {
-    const employee = find_person(form.name);
+    const employee = find_person("update-person");
     update_employee_form_view(employee);
   });
 
@@ -179,7 +182,9 @@ function directory_update_person_page() {
 
   directory_container.appendChild(employee_directory_list);
 }
+
 /***** VIEWS *****/
+
 function update_employee_form_view(employee) {
   const update_form = document.getElementById("update-person-form");
 
@@ -229,15 +234,16 @@ function verify_person_view(employee) {
   const office_num = document.createElement("p");
   const phone_num = document.createElement("p");
 
+  const lookup_form = document.getElementById("verify-person-form");
   name.innerText = employee.name;
   office_num.innerText = employee.officeNum;
   phone_num.innerText = employee.phoneNum;
 
-  div.classList.add("card");
+  div.classList.add("card__selected");
   div.appendChild(name);
   div.appendChild(office_num);
   div.appendChild(phone_num);
-  directory_container.appendChild(div);
+  lookup_form.parentNode.insertBefore(div, lookup_form.nextSibling);
 }
 
 /***** COMPONENTS *****/
@@ -311,6 +317,7 @@ function ButtonComponent({ icon = "", type = "button" } = {}) {
 }
 
 /***** CRUD OPERATIONS *****/
+
 function update_person() {
   const forms = document.forms["update-person"].getElementsByTagName("input");
   const inputs = Array.from(forms);
