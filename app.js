@@ -13,6 +13,7 @@ $("#directory-delete-person-page").on("click", directory_delete_person_page);
 $("#directory-update-person-page").on("click", directory_update_person_page);
 
 function init() {
+  get_localstorage();
   return directory_list_page();
 }
 
@@ -20,10 +21,18 @@ function update_localstorage() {
   localStorage.setItem("directory", JSON.stringify(employeeList));
 }
 
+function get_localstorage() {
+  const list = localStorage.getItem("directory");
+  const length = localStorage.length;
+  if (!length) return;
+  employeeList = JSON.parse(list);
+}
+
 function reset_view() {
   directory_container.textContent = "";
 }
 
+/***** PAGE NAVIGATION OPERATIONS *****/
 function directory_list_page() {
   reset_view();
   employeeList.forEach((employee) => {
@@ -157,6 +166,7 @@ function directory_update_person_page() {
     directory_container.appendChild(div);
   });
 }
+
 function update_employee_form_view() {
   const update_form = document.getElementById("update-person-form");
 
@@ -189,6 +199,7 @@ function update_employee_form_view() {
   update_form.appendChild(form);
   button.addEventListener("click", () => update_person);
 }
+
 function verify_person_view(employee) {
   const div = document.createElement("div");
   const name = document.createElement("label");
@@ -206,6 +217,7 @@ function verify_person_view(employee) {
   directory_container.appendChild(div);
 }
 
+/***** CRUD OPERATIONS *****/
 function update_person() {
   const forms = document.forms["update-person"].getElementsByTagName("input");
   const inputs = Array.from(forms);

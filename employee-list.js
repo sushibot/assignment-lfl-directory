@@ -1,42 +1,42 @@
-const employeeList = [
+let employeeList = [
   {
-    name: 'Jan',
+    name: "Jan",
     officeNum: 1,
-    phoneNum: '222-222-2222'
+    phoneNum: "222-222-2222",
   },
   {
-    name: 'Juan',
+    name: "Juan",
     officeNum: 304,
-    phoneNum: '489-789-8789'
+    phoneNum: "489-789-8789",
   },
   {
-    name: 'Margie',
+    name: "Margie",
     officeNum: 789,
-    phoneNum: '789-789-7897'
+    phoneNum: "789-789-7897",
   },
   {
-    name: 'Sara',
+    name: "Sara",
     officeNum: 32,
-    phoneNum: '222-789-4654'
+    phoneNum: "222-789-4654",
   },
   {
-    name: 'Tyrell',
+    name: "Tyrell",
     officeNum: 3,
-    phoneNum: '566-621-0452'
+    phoneNum: "566-621-0452",
   },
   {
-    name: 'Tasha',
+    name: "Tasha",
     officeNum: 213,
-    phoneNum: '789-766-5675'
+    phoneNum: "789-766-5675",
   },
   {
-    name: 'Ty',
+    name: "Ty",
     officeNum: 211,
-    phoneNum: '789-766-7865'
+    phoneNum: "789-766-7865",
   },
   {
-    name: 'Sarah',
+    name: "Sarah",
     officeNum: 345,
-    phoneNum: '222-789-5231'
-  }
+    phoneNum: "222-789-5231",
+  },
 ];
