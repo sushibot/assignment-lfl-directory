@@ -236,3 +236,6 @@ button {
   gap: 1rem;
   justify-content: center;
 }
+.modal-contents__hide {
+  display: none;
+}

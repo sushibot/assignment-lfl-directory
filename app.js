@@ -17,17 +17,6 @@ function init() {
   return directory_list_page();
 }
 
-// function update_localstorage() {
-//   localStorage.setItem("directory", JSON.stringify(employeeList));
-// }
-
-// function get_localstorage() {
-//   const list = localStorage.getItem("directory");
-//   const length = localStorage.length;
-//   if (!length) return;
-//   employeeList = JSON.parse(list);
-// }
-
 function reset_view() {
   directory_container.textContent = "";
 }
@@ -40,7 +29,7 @@ function directory_list_page() {
   return directory_container.appendChild(employee_directory_list);
 }
 
-/***** VIEWS *****/
+/***** MODALS *****/
 
 function add_employee_form_modal() {
   const form_id = "add-new-employee";
@@ -135,10 +124,10 @@ function ModalComponent(
     "custom-modal-close-action"
   );
 
-  const modal_custom_action = document.getElementById(
+  const modal_custom_action_button = document.getElementById(
     "custom-modal-action-button"
   );
-
+  const modal_custom_actions = document.getElementById("custom-modal-actions");
   if (title) {
     modal_title.textContent = title;
   }
@@ -150,13 +139,18 @@ function ModalComponent(
   modal_close_action.addEventListener("click", () => {
     modal.style.display = "none";
     modal_content.textContent = "";
-    modal_custom_action.textContent = "";
+    modal_custom_actions.classList.add("modal-contents__hide");
   });
 
   if (form_id) {
-    modal_custom_action.classList.add("button-primary");
-    modal_custom_action.textContent = button_name;
-    modal_custom_action.addEventListener("click", () => button_action(form_id));
+    modal_custom_actions.classList.remove("modal-contents__hide");
+    modal_custom_actions.classList.add("modal-actions");
+
+    modal_custom_action_button.classList.add("button-primary");
+    modal_custom_action_button.textContent = button_name;
+    modal_custom_action_button.addEventListener("click", () =>
+      button_action(form_id)
+    );
   }
 }
 
@@ -285,22 +279,24 @@ function update_person(form_id) {
 
 function insert_person(form_id) {
   const forms = document.forms[form_id].getElementsByTagName("input");
-  const inputs = Array.from(forms);
-  let new_person = {
-    name: "",
-    officeNum: "",
-    phoneNum: "",
-  };
+  const [input_name, input_office_num, input_phone_num] = Array.from(forms);
 
-  inputs.forEach((input) => {
-    if (input.value !== "") {
-      new_person[input.name] = input.value;
-    }
+  const invalid_form =
+    input_name.value.length <= 0 &&
+    input_office_num.value.length <= 0 &&
+    input_phone_num.value.length <= 0;
+
+  if (invalid_form) {
+    return alert("Please fill out the form fields to add a new employee.");
+  }
+
+  employeeList.push({
+    name: input_name.value,
+    officeNum: input_name.value,
+    phoneNum: input_phone_num.value,
   });
 
-  employeeList.push(new_person);
-  console.log(employeeList);
-  alert(`Succesfully added ${new_person.name.toUpperCase()}!`);
+  alert(`Succesfully added ${input_name.value.toUpperCase()}!`);
   directory_list_page();
 }
 
