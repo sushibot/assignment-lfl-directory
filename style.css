@@ -139,17 +139,25 @@ a:active {
 }
 
 /***** BUTTON STYLES *****/
+button {
+  border: none;
+  border-radius: 4px;
+}
+
 .button-primary {
   background-color: var(--primary);
   color: var(--neutral);
+  padding: 0.5rem 2rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  cursor: pointer;
 }
 .button-icon {
-  border: none;
   width: 100%;
-  border-radius: 4px;
   padding: 0.5rem 1.25rem;
   background-color: white;
 }
+
 .button-icon__edit:hover {
   background-color: var(--secondary);
   cursor: pointer;
@@ -178,7 +186,7 @@ a:active {
   margin: auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 80%;
+  width: 50%;
 }
 .modal-header {
   display: flex;
@@ -186,4 +194,9 @@ a:active {
   align-items: center;
 }
 .modal-content {
+}
+.modal-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
 }
