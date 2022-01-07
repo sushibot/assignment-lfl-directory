@@ -130,6 +130,7 @@ function directory_update_person_page() {
 
   const button = ButtonComponent({
     icon: edit_icon,
+    className: "button-icon__edit",
   });
 
   form.appendChild(input_name);
@@ -232,9 +233,16 @@ function ListItemComponent({ name, office_num, phone_num }) {
   const name_label = document.createElement("label");
   const office_num_label = document.createElement("label");
   const phone_num_label = document.createElement("label");
+  const div = document.createElement("div");
 
-  const update_button = ButtonComponent({ icon: edit_icon });
-  const delete_button = ButtonComponent({ icon: delete_icon });
+  const update_button = ButtonComponent({
+    icon: edit_icon,
+    className: ["button-icon", "button-icon__edit"],
+  });
+  const delete_button = ButtonComponent({
+    icon: delete_icon,
+    className: ["button-icon", "button-icon__remove"],
+  });
 
   update_button.addEventListener("click", () => {
     const employee = find_person("update-person");
@@ -250,11 +258,15 @@ function ListItemComponent({ name, office_num, phone_num }) {
   phone_num_label.innerText = phone_num;
 
   li.classList.add("card");
+  div.classList.add("card-actions");
+
+  div.appendChild(update_button);
+  div.appendChild(delete_button);
+
   li.appendChild(name_label);
   li.appendChild(office_num_label);
   li.appendChild(phone_num_label);
-  li.appendChild(update_button);
-  li.appendChild(delete_button);
+  li.appendChild(div);
 
   return li;
 }
@@ -283,9 +295,10 @@ function InputComponent({
   return input;
 }
 
-function ButtonComponent({ icon = "", type = "button" } = {}) {
+function ButtonComponent({ icon = "", type = "button", className = [] } = {}) {
   const button = document.createElement("button");
   button.type = type;
+  if (className.length) button.classList.add(...className);
 
   const img_icon = document.createElement("img");
   img_icon.setAttribute("src", icon);
