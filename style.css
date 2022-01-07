@@ -94,7 +94,7 @@ a:active {
 .directory-container {
   margin-left: 15rem;
   padding: 2rem;
-  gap: 1rem;
+  gap: 1.5rem;
   display: flex;
   flex-direction: column;
 
@@ -106,7 +106,7 @@ a:active {
   flex-direction: column;
   padding-bottom: 2.5rem;
 
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
 /****************************/
@@ -121,6 +121,7 @@ input {
   display: flex;
   gap: 0.25rem;
 }
+
 .employee-form-container {
   display: flex;
   gap: 1rem;
@@ -242,3 +243,42 @@ button {
   display: none;
 }
 /****************************/
+
+/***** MOBILE STYLES *****/
+@media (max-width: 800px) {
+  .modal-container {
+    width: 80%;
+  }
+  .header-container {
+    margin: unset;
+    flex-direction: column;
+    align-items: unset;
+  }
+
+  .directory-container {
+    margin: unset;
+    width: unset;
+  }
+  .container {
+    display: flex;
+    flex-direction: column;
+  }
+  .card {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: auto;
+    gap: unset;
+  }
+  .card label {
+    padding: 1rem 1rem 0 1rem;
+  }
+  .card div {
+    padding-top: 1rem;
+  }
+  .card-actions {
+    height: unset;
+  }
+  .navigation-container {
+    display: none;
+  }
+}
